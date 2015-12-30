@@ -1,0 +1,83 @@
+﻿@{
+    ViewBag.Title = "AngularValidation";
+}
+<html>
+<head>
+    <title>
+
+    </title>
+    <style>
+        input.ng-invalid.ng-dirty {
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body ng-app="app" ng-controller="validateCtrl as ctrl">
+    <div class="container">
+        <h2>AngularValidation</h2>
+        <form name="customerForm" ng-submit="submitted=true;ctrl.submit(customer,customerForm.$valid)" novalidate>
+            <div class="form-control">
+                <label>
+                    USER NAME:
+                </label>
+                <input type="text" name="customerName" ng-model="customer.Name" required />
+                <div ng-show="customerForm.customerName.$error.required && submitted" class="has-error" style="display:inline;color:red">
+                    name required
+                </div>
+
+            </div>
+            <div class="form-control">
+                <label>
+                    CUSTOMER EMAIL:
+                </label>
+                <input type="email" name="customerEmail" ng-model="customer.Email" required />
+                <span ng-show="customerForm.customerEmail.$error.required && submitted" class="has-error" style="display:inline;color:red">
+                    Email required!
+                </span>
+                <span ng-show="customerForm.customerEmail.$error.email && submitted" style="color:red">
+                    Not Email!
+                </span>
+            </div>
+            <div class="form-control">
+                <label>
+                    password:
+                </label>
+                <input type="password"
+                       name="cusPassword"
+                       ng-minlength="6"
+                       ng-maxlength="12"
+                       ng-model="customer.Password"
+                       required />
+                <span ng-show="customerForm.cusPassword.$error.required && submitted" style="display:inline;color:red">
+                    password required!
+                </span>
+                <span ng-show=" customerForm.cusPassword.$error.minlegth && submitted" class="ng-invalid" style="display:inline;color:red">
+                    TOO SHORT!
+                </span>
+                <span ng-show="customerForm.cusPassword.$error.maxlength && submitted" style="display:inline;color:red">
+                    TOO LONG!
+                </span>
+
+            </div><br />
+            <div class="form-control">
+                <input type="submit" value="Submit" />
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+<script src="~/Scripts/angular.min.js"></script>
+<script src="~/Scripts/angular-messages.js"></script>
+<script src="~/Scripts/angular-animate.js"></script>
+<script type="text/javascript">
+    var app = angular.module('app', []);
+    app.controller('validateCtrl', ['$scope', function ($scope) {
+        $scope.submit = function (formdata, validity) {
+
+            if (validity) {
+                alert(JSON.stringify(formdata));
+            }
+        }
+    }])
+</script>
+
